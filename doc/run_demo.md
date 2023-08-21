@@ -26,7 +26,7 @@ git clone https://github.com/RaymondCode/simple-demo.git
 docker run -it -v (your absolute path to repo):/home/douyin-demo -p 8080:8080 douyin /bin/bash
 ```
 -i表示交互操作，-t表示终端，-v (path1):(path2)表示将主机path1挂载到容器内path2，-p (port1):(port2)表示将容器的8080端口绑定到主机的8080端口。
-创建完成后，会显示终端。在终端中进入目录/home/douyin-demo，并用其构建项目可执行文件。
+创建完成后，会显示终端。在终端中进入目录/home/douyin-demo，并用go命令构建项目可执行文件。
 ```shell
 cd /home/douyin-demo
 go build
