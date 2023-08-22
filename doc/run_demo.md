@@ -38,3 +38,32 @@ go build
 可以看到后端成功运行，终端显示出gin库的日志，以及正在监听8080端口。
 
 在浏览器中访问[http://127.0.0.1:8080/douyin/feed/](http://127.0.0.1:8080/douyin/feed/ "http://127.0.0.1:8080/douyin/feed/")。可以看到返回一个json。
+
+### 安卓模拟器安装（以Android Studio为例）
+
+**注意：** 该方法比较吃配置。如果电脑配置不高，可以使用雷电模拟器。
+
+从[该链接](https://developer.android.com/studio "https://developer.android.com/studio")下载Android Studio软件并安装。
+
+安装完成后，打开软件。按照[该链接](https://developer.android.com/studio/run/managing-avds?hl=zh-cn "https://developer.android.com/studio/run/managing-avds?hl=zh-cn")的方法新建一个虚拟设备。
+
+我在试的时候打开Device Manager窗口后发现自带一个设备，就直接点击右侧的启动按钮，然后Android Studio下载了很多文件之后就可以启动了。后面的配置看起来很麻烦。
+
+模拟器启动后如图所示：
+![](./img/phone.PNG)
+
+将青训营文档中的app-release.apk拖入上述屏幕即可完成安装。教程见[该链接](https://developer.android.com/studio/run/emulator-install-add-files?hl=zh-cn "https://developer.android.com/studio/run/emulator-install-add-files?hl=zh-cn")
+
+安装完成后可以在模拟器中找到抖声APP。
+
+### 安卓模拟器（以雷电模拟器为例）
+
+
+### 配置APP
+打开APP后双击右下角的“我”，看到如下界面。
+
+![](./img/app_url.PNG)
+
+若安装Android Studio，根据[该链接](https://developer.android.com/studio/run/emulator-networking?hl=zh-cn "https://developer.android.com/studio/run/emulator-networking?hl=zh-cn")关于模拟器网络配置的说明，10.0.2.2代表主机的localhost。前面又已经将docker镜像暴露的8080端口与主机8080端口绑定了，所以填写链接如上图即可。
+
+重启抖声APP，即可刷到一只熊的视频。
