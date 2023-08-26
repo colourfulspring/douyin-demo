@@ -48,3 +48,17 @@ mysql>
 ALTER USER 'root'@'localhost' IDENTIFIED BY '(new password)';
 ```
 修改完成后输入exit，即可退出mysql，后续使用root用户登录时均使用新密码即可。
+
+### 将设计好的数据表导入mysql中
+用修改后的密码登录mysql终端。首先使用下列语句新建数据库：
+```sql
+create database douyin;
+```
+其次使用下列语句，选择新建的数据库douyin：
+```sql
+use douyin;
+```
+最后输入下列命令，将设计好的数据表导入数据库中：
+```sql
+source ./database/crebas.sql
+```
