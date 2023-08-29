@@ -5,8 +5,8 @@
 <Workspace>
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{759007DA-3293-4F89-BDB0-77F9B45B3F38}" Name="ConceptualDataModel" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="ConceptualDataModel.cdm"/>
-		<Model Expanded="Yes" ID="{B3FF1698-5789-4D66-833A-BEC520DC8E00}" Name="LogicalDataModel" Type="{5F45F978-C4F3-4E35-A3FC-AF3318663A0F}" URL="LogicalDataModel.ldm"/>
-		<Model Expanded="Yes" ID="{DACDFC08-2C57-4FBD-99C7-9141DD2CA38F}" Name="PhysicalDataModel" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="PhysicalDataModel.pdm"/>
+		<Model Expanded="Yes" ID="{39186185-B18B-440F-97E3-9119388A3EF0}" Name="LogicalDataModel" Type="{5F45F978-C4F3-4E35-A3FC-AF3318663A0F}" URL="LogicalDataModel.ldm"/>
+		<Model Expanded="Yes" ID="{C9473E33-142C-4FBC-A120-E939AF65A23C}" Name="PhysicalDataModel" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="PhysicalDataModel.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

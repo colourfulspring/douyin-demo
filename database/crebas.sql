@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2023/8/23 17:22:51                           */
+/* Created on:     2023/8/28 22:36:54                           */
 /*==============================================================*/
 
 
@@ -21,9 +21,9 @@ drop table if exists Video;
 /*==============================================================*/
 create table Comment
 (
-   comment_id           char(64) not null,
-   user_id              bigint not null,
-   video_id             bigint not null,
+   comment_id           bigint unsigned not null,
+   user_id              bigint unsigned not null,
+   video_id             bigint unsigned not null,
    create_date          date not null,
    comment_content      varchar(300) not null,
    primary key (comment_id)
@@ -34,8 +34,8 @@ create table Comment
 /*==============================================================*/
 create table Favorite
 (
-   video_id             bigint not null,
-   user_id              bigint not null,
+   video_id             bigint unsigned not null,
+   user_id              bigint unsigned not null,
    primary key (video_id, user_id)
 );
 
@@ -44,8 +44,8 @@ create table Favorite
 /*==============================================================*/
 create table Follow
 (
-   Use_user_id          bigint not null,
-   user_id              bigint not null,
+   Use_user_id          bigint unsigned not null,
+   user_id              bigint unsigned not null,
    primary key (Use_user_id, user_id)
 );
 
@@ -54,9 +54,9 @@ create table Follow
 /*==============================================================*/
 create table Message
 (
-   message_id           bigint not null,
-   user_id              bigint not null,
-   Use_user_id          bigint not null,
+   message_id           bigint unsigned not null,
+   user_id              bigint unsigned not null,
+   Use_user_id          bigint unsigned not null,
    message_content      varchar(300) not null,
    create_time          time not null,
    primary key (message_id)
@@ -67,7 +67,7 @@ create table Message
 /*==============================================================*/
 create table User
 (
-   user_id              bigint not null,
+   user_id              bigint unsigned not null,
    user_name            varchar(32) not null,
    avatar               char(64),
    background_image     char(64),
@@ -82,11 +82,11 @@ create table User
 /*==============================================================*/
 create table Video
 (
-   video_id             bigint not null,
-   user_id              bigint not null,
+   video_id             bigint unsigned not null,
+   user_id              bigint unsigned not null,
    play_url             char(64) not null,
    cover_url            char(64) not null,
-   title                char(100) not null,
+   title                varchar(50) not null,
    primary key (video_id)
 );
 
