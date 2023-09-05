@@ -84,30 +84,56 @@ func main() {
 }
 
 ```
-
 ### 错误解决1
 使用命令
 ```shell
 go run orm_test.go
 ```
-运行main.go文件。报错如下：
+运行orm_test.go文件。报错如下：
+```
+go: cannot run *_test.go files (orm_test.go)
+```
+根据https://stackoverflow.com/questions/35099417/go-not-running-program-with-name-package-test-go所言，*_test.go文件是go语言的testing system的内置部分。
 
-ERROR 1130: Host ‘xxx.xxx.xxx.xxx’ is not allowed to connect to this MySQL server.
+应该通过
+```shell
+go test orm_test.go
+```
+运行这个文件。
 
-根据链接 https://www.shulanxt.com/doc/dbdoc/mysql-1130 链接的**方法二：改表法**成功解决。
+根据go测试的官方库https://pkg.go.dev/testing可知，go提供了自动化测试功能。任何名字为xxx_test.go的文件中形如
+```go
+func TestXxx(*testing.T)
+```
+的函数，使用命令
+```shell
+go test xxx_test.go
+```
+即可自动执行测试函数TestXxx。将main函数改为这个声明。
 
 ### 错误解决2
-继续使用命令
+使用命令
 ```shell
-go run orm_test.go
+go test orm_test.go
 ```
 运行orm_test.go文件。报错如下：
+```
+ERROR 1130: Host ‘xxx.xxx.xxx.xxx’ is not allowed to connect to this MySQL server.
+```
+根据链接 https://www.shulanxt.com/doc/dbdoc/mysql-1130 链接的**方法二：改表法**成功解决。
 
-2023/08/30 15:13:36 /home/douyin-demo/simple-demo/orm_test.go:31 Error 1146 (42S02): Table 'douyin.users' doesn't exist
+### 错误解决3
+继续使用命令
+```shell
+go test orm_test.go
+```
+运行ormtest.go文件。报错如下：
+```
+2023/08/30 15:13:36 /home/douyin-demo/simple-demo/ormtest.go:31 Error 1146 (42S02): Table 'douyin.users' doesn't exist
 
 [0.931ms] [rows:0] SELECT * FROM `users`
 ID      Name    Age
-
+```
 初步思考是因为gorm对结构体名和数据表名的转换关系默认为直接取消大小写并在末尾加s。
 
 根据 https://blog.csdn.net/lilongsy/article/details/127783649 链接中可知通过配置gorm.Config中的NamingStrategy来选择结构体名和数据表名的转换关系。该方法需要特别同步数据库和ORM代码中的表名。
@@ -122,12 +148,15 @@ db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 
 根据 https://zhuanlan.zhihu.com/p/651985444 链接中可知，另一种方法是直接使用db.Table('table name')显式指定mysql数据表名。该方法不需要特别同步数据库和ORM代码中的表名。
 
+根据gorm的官方文档https://gorm.io/docs/conventions.html 可知，还有一种方法是重写TableName()方法。这种方法既有较大的灵活度，又能避免同一个常量多次出现。作者认为这是最好的方法。
+
 ### 最终成功代码
 ```go
 package test
 
 import (
 	"fmt"
+	"testing"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -143,10 +172,14 @@ type User struct {
 	Token           string `gorm:"token"`
 }
 
-func main() {
+func (User) TableName() string {
+	return "User"
+}
+
+func TestORM(t *testing.T) {
 
 	// 连接数据库
-	dsn := "root:password@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(127.0.0.1:3306)/douyin?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -154,7 +187,7 @@ func main() {
 
 	// 获取所有记录
 	var users []User
-	db.Table("User").Find(&users)
+	db.Find(&users)
 
 	// 打印记录
 	fmt.Println("ID\tName\tAge")
@@ -162,4 +195,9 @@ func main() {
 		fmt.Printf("%d\t%s\t%s\n", user.UserID, user.UserName, user.Password)
 	}
 }
+
 ```
+### 定义并初始化*gorm.DB类型全局变量db
+在simple-demo/controller目录中新建文件orm.go。该文件属于包controller。
+
+将前一节初始化数据库的代码包装为函数initDB，用来建立与数据库的连接，得到整个controller包的全局变量db给各个函数使用。代码见orm.go。

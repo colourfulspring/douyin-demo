@@ -2,6 +2,7 @@ package test
 
 import (
 	"fmt"
+	"testing"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -17,7 +18,11 @@ type User struct {
 	Token           string `gorm:"token"`
 }
 
-func main() {
+func (User) TableName() string {
+	return "User"
+}
+
+func TestORM(t *testing.T) {
 
 	// 连接数据库
 	dsn := "root:123456@tcp(127.0.0.1:3306)/douyin?charset=utf8mb4&parseTime=True&loc=Local"
@@ -28,7 +33,7 @@ func main() {
 
 	// 获取所有记录
 	var users []User
-	db.Table("User").Find(&users)
+	db.Find(&users)
 
 	// 打印记录
 	fmt.Println("ID\tName\tAge")
